@@ -1,0 +1,24 @@
+enableFeaturePreview('VERSION_CATALOGS')
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+    versionCatalogs {
+        libs {
+            //声明版本
+            version("ktx", "1.6.0")
+            version('compileSdk', '30')
+//            version('targetSdk', '30')
+
+            //依赖取别名
+            alias("core-ktx").to("androidx.core", "core-ktx").versionRef("ktx")
+
+            //打包依赖
+            bundle("ktx", ["core-ktx"])
+        }
+    }
+}
+rootProject.name = "Gradle7"
+include ':app'

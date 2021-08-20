@@ -1,0 +1,82 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdk libs.versions.compileSdk.get().toInteger()
+
+    defaultConfig {
+        applicationId "com.yly.mvvmlist"
+        minSdk 21
+        targetSdk libs.versions.targetSdk.get().toInteger()
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+}
+//
+//configurations.all {
+//    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+//        if (details.requested.group == 'org.software' && details.requested.name == 'some-library' && details.requested.version == '1.2') {
+//            details.useVersion '1.2.1'
+//            details.because 'fixes critical bug in 1.2'
+//        }
+//    }
+//}
+
+
+dependencies {
+    //强制版本依赖，并且是传递约束，子module也会被约束
+    constraints {
+        implementation 'androidx.core:core-ktx:1.6.0'
+    }
+}
+
+dependencies {
+
+    //如果在其他地方使用了constraints，那么这个地方就不用声明版本
+    implementation 'androidx.core:core-ktx'
+//    implementation(libs.core.ktx)
+    implementation(libs.bundles.ktx)
+    implementation(libs.constraintlayout)
+    testImplementation('junit:junit:4.13.2') {
+//        force = true
+    }
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    //版本管理
+    // 1:版本号后面的!!表示strict约束，表示版本锁定
+    //2:[1.7,1.8],[表示左包含，]表示左不包含，]表示右包含，[表示右不包含
+    //3:strictly不能超过范围，并且覆盖传递依赖的范围 require可以通过仲裁选择更高的版本，但是不能低于声明的版本
+    // prefer 表示优先选择版本，当其他依赖中没有其他条件决定版本时候这个就是默认版本
+//    implementation 'com.google.android.material:material:1.4.0!!'
+    implementation("com.google.android.material:material") {
+        version {
+            strictly("1.4.0")
+//            strictly("[1.7, 1.8[")
+//            prefer("1.7.25")
+        }
+    }
+//
+//    implementation("com.squareup.okhttp3:okhttp:4.9.1") {
+//        //排除依赖
+//        exclude group: "com.squareup.okio", module: "okio"
+//    }
+}
