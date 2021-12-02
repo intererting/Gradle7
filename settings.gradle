@@ -10,7 +10,7 @@ dependencyResolutionManagement {
             //声明版本
             version("ktx", "1.6.0")
             version('compileSdk', '30')
-//            version('targetSdk', '30')
+            version('targetSdk', '30')
 
             //依赖取别名
             alias("core-ktx").to("androidx.core", "core-ktx").versionRef("ktx")

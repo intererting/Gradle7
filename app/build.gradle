@@ -51,7 +51,7 @@ dependencies {
 dependencies {
 
     //如果在其他地方使用了constraints，那么这个地方就不用声明版本
-    implementation 'androidx.core:core-ktx'
+//    implementation 'androidx.core:core-ktx'
 //    implementation(libs.core.ktx)
     implementation(libs.bundles.ktx)
     implementation(libs.constraintlayout)
@@ -64,14 +64,15 @@ dependencies {
     //版本管理
     // 1:版本号后面的!!表示strict约束，表示版本锁定
     //2:[1.7,1.8],[表示左包含，]表示左不包含，]表示右包含，[表示右不包含
-    //3:strictly不能超过范围，并且覆盖传递依赖的范围 require可以通过仲裁选择更高的版本，但是不能低于声明的版本
+    //3:strictly不能超过范围，并且覆盖传递依赖的范围 require 可以通过仲裁选择更高的版本，但是不能低于声明的版本
     // prefer 表示优先选择版本，当其他依赖中没有其他条件决定版本时候这个就是默认版本
 //    implementation 'com.google.android.material:material:1.4.0!!'
     implementation("com.google.android.material:material") {
         version {
-            strictly("1.4.0")
-//            strictly("[1.7, 1.8[")
+//            strictly("1.4.0")
+            strictly("]1.7, 1.8[")
 //            prefer("1.7.25")
+//            require("1.7.25")
         }
     }
 //
