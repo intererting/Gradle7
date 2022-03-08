@@ -14,12 +14,56 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        //A library dependency includes a flavor dimension that your app does not.
+        //For example, a library dependency includes flavors for a "minApi" dimension, but your app includes flavors for only the "tier" dimension. So, when you want to build the "freeDebug" version of your app,
+        // the plugin doesn't know whether to use the "minApi23Debug" or "minApi18Debug" version of the dependency.
+        missingDimensionStrategy 'minApi', 'minApi18', 'minApi23'
+    }
+
+    signingConfigs {
+//        release {
+//            storeFile file("myreleasekey.keystore")
+//            storePassword "password"
+//            keyAlias "MyReleaseKey"
+//            keyPassword "password"
+//        }
+    }
+
+
+    flavorDimensions "version"
+
+    //build.gradle
+    productFlavors {
+        apple {
+            dimension "version"
+            manifestPlaceholders = [flavorName: "Apple"]
+        }
+        banana {
+            dimension "version"
+            manifestPlaceholders = [flavorName: "Banana"]
+        }
     }
 
     buildTypes {
         release {
+//            signingConfig signingConfigs.release
+//            applicationIdSuffix ".debugStaging"
+//            versionNameSuffix "-full"
+//            versionCode 20
+            manifestPlaceholders = [buildTypeName: "release"]
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        staging {
+            //Your app includes a build type that a library dependency does not.
+            //1：For example, your app includes a "staging" build type, but a dependency includes only a "debug" and "release" build type.
+            //2：For a given flavor dimension that exists in both the app and its library dependency, your app includes flavors that the library does not.
+            matchingFallbacks = ['debug', 'release']
+        }
+
+        debug {
+            manifestPlaceholders = [buildTypeName: "debug"]
         }
     }
     compileOptions {
@@ -30,11 +74,51 @@ android {
         jvmTarget = '11'
     }
 
+    //过滤编译
     variantFilter { variant ->
 //        def names = variant.flavors*.name
         def isReleaseBuildType = variant.buildType.name == "release"
         if (isReleaseBuildType) {
             setIgnore(true)
+        }
+    }
+
+    //不同编译类型的资源合并
+    /*   All source code in the java/ directories are compiled together to generate a single output.
+         Note: For a given build variant, Gradle throws a build error if it encounters two or more source set directories that have defined the same Java class.
+          For example, when building a debug app, you cannot define both src/debug/Utility.java and src/main/Utility.java.
+           This is because Gradle looks at both these directories during the build process and throws a "duplicate class" error.
+            If you want different versions of Utility.java for different build types,
+             you can have each build type define its own version of the file and not include it in the main/ source set.
+
+       Manifests are merged together into a single manifest. Priority is given in the same order as the list above. That is, manifest settings for a build type override the manifest settings for a product flavor, and so on. To learn more, read about manifest merging.
+       Similarly, files in the values/ directories are merged together. If two files share the same name, such as two strings.xml files, priority is given in the same order as the list above. That is, values defined in a file in the build type source set override the values defined in the same file in a product flavor, and so on.
+       Resources in the res/ and asset/ directories are packaged together. If there are resources with the same name defined in two or more source sets, priority is given in the same order as the list above.
+       Finally, Gradle gives resources and manifests included with library module dependencies the lowest priority when building the app.*/
+
+    sourceSets {
+        // Encapsulates configurations for the main source set.
+        main {
+            // Changes the directory for Java sources. The default directory is
+            // 'src/main/java'.
+            java.srcDirs = ['other/java', 'src/main/java']
+
+            // If you list multiple directories, Gradle uses all of them to collect
+            // sources. Because Gradle gives these directories equal priority, if
+            // you define the same resource in more than one directory, you get an
+            // error when merging resources. The default directory is 'src/main/res'.
+            res.srcDirs = ['other/res1', 'other/res2', 'src/main/res']
+
+            // Note: You should avoid specifying a directory which is a parent to one
+            // or more other directories you specify. For example, avoid the following:
+            // res.srcDirs = ['other/res1', 'other/res1/layouts', 'other/res1/strings']
+            // You should specify either only the root 'other/res1' directory, or only the
+            // nested 'other/res1/layouts' and 'other/res1/strings' directories.
+
+            // For each source set, you can specify only one Android manifest.
+            // By default, Android Studio creates a manifest for your main source
+            // set in the src/main/ directory.
+//            manifest.srcFile 'other/AndroidManifest.xml'
         }
     }
 }
