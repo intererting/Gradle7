@@ -1,8 +1,8 @@
 [versions]
-targetSdk = "30"
+targetSdk = "31"
 
 [libraries]
-constraintlayout="androidx.constraintlayout:constraintlayout:2.1.0"
+constraintlayout = "androidx.constraintlayout:constraintlayout:2.1.0"
 
 [bundles]
-constraintlayout=["constraintlayout"]
+constraintlayout = ["constraintlayout"]
