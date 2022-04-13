@@ -177,3 +177,27 @@ dependencies {
 //        exclude group: "com.squareup.okio", module: "okio"
 //    }
 }
+
+//abstract class GetGitShaTask extends DefaultTask {
+//    @OutputFile
+//    abstract RegularFileProperty getOutputFile()
+//
+//    @javax.inject.Inject
+//    abstract ExecOperations getExecOperations()
+//
+//    @TaskAction
+//    void process() {
+//        def stdout = new ByteArrayOutputStream()
+//        getExecOperations().exec {
+//            it.commandLine("git", "rev-parse", "HEAD")
+//            standardOutput = stdout
+//        }
+//        getOutputFile().get().asFile.write(stdout.toString())
+//    }
+//}
+//
+//project.tasks.register("myTask", GetGitShaTask) {
+//    getOutputFile().set(
+//            project.layout.buildDirectory.file("sha.txt")
+//    )
+//}
