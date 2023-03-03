@@ -94,9 +94,13 @@ android {
             If you want different versions of Utility.java for different build types,
              you can have each build type define its own version of the file and not include it in the main/ source set.
 
-       Manifests are merged together into a single manifest. Priority is given in the same order as the list above. That is, manifest settings for a build type override the manifest settings for a product flavor, and so on. To learn more, read about manifest merging.
-       Similarly, files in the values/ directories are merged together. If two files share the same name, such as two strings.xml files, priority is given in the same order as the list above. That is, values defined in a file in the build type source set override the values defined in the same file in a product flavor, and so on.
-       Resources in the res/ and asset/ directories are packaged together. If there are resources with the same name defined in two or more source sets, priority is given in the same order as the list above.
+       Manifests are merged together into a single manifest. Priority is given in the same order as the list above. That is,
+        manifest settings for a build type override the manifest settings for a product flavor, and so on. To learn more, read about manifest merging.
+       Similarly, files in the values/ directories are merged together. If two files share the same name, such as two strings.xml files,
+       priority is given in the same order as the list above. That is,
+       values defined in a file in the build type source set override the values defined in the same file in a product flavor, and so on.
+       Resources in the res/ and asset/ directories are packaged together. If there are resources with the same name defined in two or more source sets,
+        priority is given in the same order as the list above.
        Finally, Gradle gives resources and manifests included with library module dependencies the lowest priority when building the app.*/
 
     sourceSets {
@@ -154,8 +158,8 @@ dependencies {
         //失效
 //        force = true
     }
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
     //版本管理
     // 1:版本号后面的!!表示strict约束，表示版本锁定
