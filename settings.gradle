@@ -26,3 +26,4 @@ include ':app'
 //includeBuild()
 //更多学习参考
 // https://docs.gradle.org/7.3.3/userguide/platforms.html#sub:central-declaration-of-dependencies
+include ':common'

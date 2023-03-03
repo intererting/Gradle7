@@ -1,3 +1,5 @@
+import javax.inject.Inject
+
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
@@ -18,7 +20,7 @@ android {
         //A library dependency includes a flavor dimension that your app does not.
         //For example, a library dependency includes flavors for a "minApi" dimension, but your app includes flavors for only the "tier" dimension. So, when you want to build the "freeDebug" version of your app,
         // the plugin doesn't know whether to use the "minApi23Debug" or "minApi18Debug" version of the dependency.
-        missingDimensionStrategy 'minApi', 'minApi18', 'minApi23'
+//        missingDimensionStrategy 'debug', 'release'
     }
 
     signingConfigs {
@@ -30,11 +32,12 @@ android {
 //        }
     }
 
-    lintOptions {
-        checkDependencies true
-    }
+//    lint {
+//        it.abortOnError = false
+//        it.checkDependencies = true
+//    }
 
-    flavorDimensions "version"
+    flavorDimensions = ["version"]
 
     //build.gradle
     productFlavors {
@@ -63,6 +66,7 @@ android {
             //1：For example, your app includes a "staging" build type, but a dependency includes only a "debug" and "release" build type.
             //2：For a given flavor dimension that exists in both the app and its library dependency, your app includes flavors that the library does not.
             matchingFallbacks = ['debug', 'release']
+            manifestPlaceholders = [buildTypeName: "staging"]
         }
 
         debug {
@@ -148,6 +152,11 @@ dependencies {
 }
 
 dependencies {
+    implementation project(":common")
+//    implementation "com.android.tools.build:gradle:7.4.2"
+    gradleApi()
+    implementation "org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.8.0"
+
 
     //如果在其他地方使用了constraints，那么这个地方就不用声明版本
 //    implementation 'androidx.core:core-ktx'
@@ -171,7 +180,7 @@ dependencies {
         version {
 //            strictly("1.4.0")
 //            strictly("]1.2, 1.7[")
-            prefer("1.5.0")
+            prefer("1.8.0")
 //            require("1.7.25")
         }
     }
@@ -186,7 +195,7 @@ dependencies {
 //    @OutputFile
 //    abstract RegularFileProperty getOutputFile()
 //
-//    @javax.inject.Inject
+//    @Inject
 //    abstract ExecOperations getExecOperations()
 //
 //    @TaskAction
@@ -199,9 +208,11 @@ dependencies {
 //        getOutputFile().get().asFile.write(stdout.toString())
 //    }
 //}
-//
+
 //project.tasks.register("myTask", GetGitShaTask) {
-//    getOutputFile().set(
-//            project.layout.buildDirectory.file("sha.txt")
-//    )
+//    getOutputFile().set(project.layout.buildDirectory.file("sha.txt"))
 //}
+
+androidComponents {
+
+}
