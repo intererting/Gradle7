@@ -9,8 +9,8 @@ dependencyResolutionManagement {
         libs {
             //声明版本
             version("ktx", "1.6.0")
-            version('compileSdk', '31')
-            version('targetSdk', '31')
+            version('compileSdk', '33')
+            version('targetSdk', '33')
 
             //依赖取别名
             alias("core-ktx").to("androidx.core", "core-ktx").versionRef("ktx")
