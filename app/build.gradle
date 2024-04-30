@@ -1,3 +1,6 @@
+// https://developer.android.google.cn/reference/tools/gradle-api/8.1/com/android/build/api/dsl/BaseFlavor?hl=en#missingDimensionStrategy(kotlin.String,kotlin.String)
+// https://developer.android.google.cn/reference/tools/gradle-api/8.1/com/android/build/api/dsl/ProductFlavor?hl=en
+
 import javax.inject.Inject
 
 plugins {
